@@ -1,4 +1,5 @@
 
+
 public class Medicament {
 
 	
@@ -30,50 +31,65 @@ public class Medicament {
 
     
     
-    
-	
-
-
-
-	/*public void stockMedoc() {
-		
-		
-		double montant;
-		if(montant<0 && credit<0) 
-		{credit=+montant;	
+	public void DeductionStock(int nbAchat)
+	{
+		if (stock >0)
+			
+				stock -= nbAchat;	
+			
+		else 
+		{
+			System.out.println("Achat Impossible car le medicament n'est plus en stock");
 		}
-		else
-		{	credit=credit-montant;
-		}
-		*/
 		
-		
+	}
 
+	
+	public void AugmentationCredit (double montant,Client c)
+	
+	{			double newCredit= montant+c.getCredit();
+				c.setCredit(newCredit);
+			
+			System.out.println("le nouveau credit client est de : "+ c.getCredit());
+	}
+	
 
-
-
-
+	
+	
+	public void Achat (double montant,int nbAchat,Client c)
+	{
+		AugmentationCredit(montant,c);
+		DeductionStock(nbAchat);
+	}
 
 
 	
 	
 	
-	
-	
-	
-	
 
 
-
+	
+	
+	
 	@Override
 	public String toString() {
-		return "Medicament [nomMedoc=" + nomMedoc + ", prix=" + prix + ", stock=" + stock + "]";
+		return "Medicament [idMedoc=" + idMedoc + ", nomMedoc=" + nomMedoc + ", prix=" + prix + ", stock=" + stock
+				+ "]";
 	}
+
+	
+	
+	
+
+
 
 
 	public static int getCompteur2() {
 		return compteur2;
 	}
+
+
+
 
 
 	public static void setCompteur2(int compteur2) {

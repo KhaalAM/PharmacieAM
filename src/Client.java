@@ -2,7 +2,8 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Client 
-{
+{	static Scanner sc = new Scanner(System.in);
+	static DecimalFormat df = new DecimalFormat("#.##");
 
 	
 	
@@ -12,8 +13,7 @@ public class Client
     private String prenom;
     private double credit;
 
-    Scanner sc = new Scanner(System.in);
-	DecimalFormat df = new DecimalFormat("#.##");
+
 
     public Client() 
     {
@@ -29,44 +29,18 @@ public class Client
 		this.id = compteur;
 		this.nom = nom;
 		this.prenom = prenom;
-		//this.credit = credit;
+		this.credit = credit;
 		//creditClient();
 	}
 
 
-	/*public void creditClient() 
-	
-	{	double montant;
-		System.out.println("Veuillez saisir le Credit initial du client: ");
-		credit = sc.nextDouble();
-		System.out.println("Veuillez saisir le montant du medicament: ");
-		montant = sc.nextDouble();	
-		credit= credit-montant;
-		System.out.println("le credit du client est de \n" + df.format(credit)+"euros");
-	
-	}
-	*/
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
 
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", credit=" + credit + ", sc=" + sc
-				+ ", df=" + df + "]";
+		return "Client [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", credit=" + credit + "]";
 	}
 
 
