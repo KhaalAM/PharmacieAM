@@ -27,8 +27,12 @@ public class MainPharmacie {
 		int quit;
 		do {
 			int key;
-			System.out.println("Veuillez sélectionner le programme que vous souhaitez : \n" + "1. Afficher \n"
-					+ "2. Approvisionner les medicaments \n" + "3. Achat \n");
+			System.out.println("Veuillez sélectionner le programme que vous souhaitez : \n" 
+			+ "1. Afficher les Clients ou les Medicaments \n"
+			+ "2. Approvisionner les medicaments \n"
+			+ "3. Achat \n"
+			+ "4. Ajouter un nouveau client\n"
+			+ "5. Ajouter un nouveau medicament\n");
 
 			key = sc.nextInt();
 			switch (key) {
@@ -40,10 +44,18 @@ public class MainPharmacie {
 
 				break;
 			case 3:
-				
+				Achat();
 				break;
-			
 
+				
+			case 4:
+				AjoutClient();
+				break;
+				
+			case 5:
+				AjoutNouveauMedoc();
+				break;
+				
 			default:
 				break;
 
@@ -78,24 +90,6 @@ public class MainPharmacie {
 
 	}
 
-	public static void lireClient() {
-		System.out.println("Liste des client : " + listeClient);
-		System.out.print("Choisir l'id du client dont vous voulez les informations : ");
-		int idClient = sc.nextInt();
-
-		boolean isTrouver = false;
-		for (int i = 0; i < listeClient.size(); i++) {
-			if (listeClient.get(i).getId() == idClient) {
-				isTrouver = true;
-				System.out.println(listeClient.get(i));
-			}
-		}
-		if (isTrouver == false) {
-			System.out.println("Aucun client correspondant à cet id.");
-		}
-
-	}
-
 	public static int lireMedoc() {
 		int num = -1;// case qui n'exste pas
 		System.out.println("Liste des medicaments : " + listeMedoc);
@@ -121,22 +115,105 @@ public class MainPharmacie {
 	public static void Approvisionner() {
 
 		int num = lireMedoc();
-		if (num != -1) 
-		{
+		if (num != -1) {
 			System.out.println("Saisir le nombre d'unité  de medicament que vous souhaitez approvisionner");
 			int nbAppro = sc.nextInt();
-			int newStock = nbAppro+listeMedoc.get(num).getStock();
+			int newStock = nbAppro + listeMedoc.get(num).getStock();// on selectionne ici le stock pour 1 medicament+ le
+																	// nbAppro
 			listeMedoc.get(num).setStock(newStock);
 			System.out.println(listeMedoc.get(num).getStock());
 		}
 	}
 
-	
-	
-	public void Achat() 
-	{
-		
+	public static int lireClient() {
+		int num2 = -1;
+
+		System.out.println("Liste des client : " + listeClient);
+		System.out.print("Choisir l'id du client dont vous voulez les informations : ");
+		int idClient = sc.nextInt();
+
+		boolean isTrouver = false;
+		for (int i = 0; i < listeClient.size(); i++) {
+			if (listeClient.get(i).getId() == idClient) {
+				num2 = i;
+				isTrouver = true;
+				System.out.println(listeClient.get(i));
+			}
+		}
+		if (isTrouver == false) {
+			System.out.println("Aucun client correspondant à cet id.");
+		}
+		return num2;
 	}
+
+	public static void Achat() {
+
+		int num2, num;
+		num2 = lireClient();
+		num = lireMedoc();
+		int stockPharma = listeMedoc.get(num).getStock();
+
+		if (num2 != -1 && num != -1) {
+			System.out.println("saisir le nombre d'article vendu: ");
+			int nbAchat = sc.nextInt();
+			System.out.println("saisir le montant à payer pour l'achat: ");
+			double montant = sc.nextDouble();
+
+			if (stockPharma >= nbAchat) {
+				stockPharma -= nbAchat;
+
+				double creditClient = listeClient.get(num2).getCredit();// le credit du client x
+				double newCreditClient = creditClient + montant;
+				listeClient.get(num2).setCredit(newCreditClient);// modifie le credit du client ayant l'id n° num2
+				System.out.println("le nouveau credit du client est de " + listeClient.get(num2).getCredit());// affiche
+																												// le
+																												// credit
+																												// du
+																												// client
+																												// ayant
+																												// l'id
+																												// n°
+																												// num2
+
+			}
+
+			else {
+				System.out.println("Achat Impossible car il n'y a pas assez de medicaments en stock");
+			}
+
+		}
+
+		else {
+			System.out.println("Ce numero de client et/ou ce medicament n'existe pas");
+
+		}
+
+	}
+
+	public static void AjoutClient() {
+		double creditIni;
+		System.out.println("Veuillez saisir le nom du client");
+		String NomClient = sc.next();
+		System.out.println("Veuillez saisir le Prenom du client");
+		String PrenomClient = sc.next();
+		System.out.println();
+
+		System.out.println("Le client a t'il un credit dans cette pharmacie?\n" + "1.Oui\n" + "2.Non ");
+		int testCredit = sc.nextInt();
+
+		if (testCredit == 1) {
+			System.out.println("Saisissez le montant du credit : ");
+			creditIni = sc.nextDouble();
+		} 
+		else {
+			 creditIni = 0;
+		}
+
+		Client c = new Client(NomClient, PrenomClient, creditIni);
+		listeClient.add(c);
+
+	}
+
 	
 	
 	
@@ -144,5 +221,20 @@ public class MainPharmacie {
 	
 	
 	
+	public static void AjoutNouveauMedoc()
+	{
 	
+		System.out.println("Veuillez saisir le nom du médicament");
+		String nomMedic = sc.next();
+		System.out.println("Veuillez saisir le Prix de vente de ce medicament");
+		String prixMedic = sc.next();
+		System.out.println();
+		System.out.println("Saisissez le nombre d'unité que vous avez en stock");
+		int nbInitialMedic = sc.nextInt();
+		Medicament m = new Medicament(nomMedic, nbInitialMedic, nbInitialMedic);
+		listeMedoc.add(m);
+		
+
+	}
+		
 }
