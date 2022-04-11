@@ -18,6 +18,7 @@ public class MainPharmacie {
 
 		Medicament m1 = new Medicament("Aspirine 500", 3.90, 20);
 		Medicament m2 = new Medicament("Doliprane 1000", 5.20, 15);
+		Medicament m3 = new Medicament("a", 5.3,2);
 		listeMedoc.add(m1);
 		listeMedoc.add(m2);
 
